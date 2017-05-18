@@ -5,7 +5,9 @@ Removes extra white boundaries from images to correctly resize canvas.
 ## Installation and Usage
 
 `git clone https://github.com/Ritiek/Auto-Image-Cropper`
+
 `cd Auto-Image-Cropper`
+
 `cargo build --release`
 
 ## Contributing
