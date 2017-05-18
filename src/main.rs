@@ -72,19 +72,15 @@ fn get_lower_right(in_path: &str) -> u32 {
 fn main() {
 	let args: Vec<_> = args().collect();
 
-	let in_path: &str = if args.len() == 3 {
-		args[1].as_str()
+	let (in_path, out_path) = if args.len() == 3 {
+		(args[1].as_str(), args[2].as_str())
 	} else {
 		println!("usage: {} <input_image> <output_image>", args[0]);
 		exit(1)
 	};
 
-	println!("{}", in_path); //, out_path);
-
-	let a = get_top_left(in_path);
-	let b = get_top_right(in_path);
-	let x = get_lower_left(in_path);
-	let y = get_lower_right(in_path);
+	let (a, b) = (get_top_left(in_path), get_top_right(in_path));
+	let (x, y) = (get_lower_left(in_path), get_lower_right(in_path));
 	println!("({0}, {1}, {2}, {3})", a, b, x, y)
 
    /*let mut im = image::open(&Path::new(in_path)).unwrap();
