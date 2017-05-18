@@ -1,0 +1,7 @@
+[package]
+name = "auto-image-cropper"
+version = "0.1.0"
+authors = ["Ritiek <ritiekmalhotra123@gmail.com>"]
+
+[dependencies]
+image = "0.13.0"
