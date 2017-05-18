@@ -1,6 +1,8 @@
 # Auto-Image-Cropper
 
-Removes extra white boundaries from images to correctly resize canvas.
+- Removes extra white boundaries from images to correctly resize canvas.
+
+- Currently, this tool only works on images with rectangular boundaries but shall soon support all kinds of images.
 
 ## Installation and Usage
 
@@ -9,6 +11,10 @@ Removes extra white boundaries from images to correctly resize canvas.
 `cd Auto-Image-Cropper`
 
 `cargo build --release`
+
+## Benchmarks
+
+- 
 
 ## Contributing
 
