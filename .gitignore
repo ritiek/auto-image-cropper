@@ -1,4 +1,4 @@
 Cargo.lock
 *.py
 *.png
-/target
+target/
