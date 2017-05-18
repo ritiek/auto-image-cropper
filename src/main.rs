@@ -4,10 +4,7 @@ use std::env::args;
 use std::process::exit;
 use std::fs::File;
 use std::path::Path;
-use image::{
-		GenericImage,
-//		imageops
-};
+use image::GenericImage;
 
 fn get_top_left(in_path: &str) -> u32 {
 	let im = image::open(&Path::new(in_path)).unwrap();
@@ -39,6 +36,8 @@ fn get_lower_left(in_path: &str) -> u32 {
 	let im = image::open(&Path::new(in_path)).unwrap();
 	let mut x = im.dimensions().1 as i32 - 1;
 	let mut y = im.dimensions().0 as i32 - 1;
+	// Using while loop as there is no reliable way
+	// to use custom steps in range() currently
 	while x >= 0 {
 		while y >= 0 {
 			let col = im.get_pixel(y as u32, x as u32);
@@ -56,6 +55,8 @@ fn get_lower_right(in_path: &str) -> u32 {
 	let im = image::open(&Path::new(in_path)).unwrap();
 	let mut x = im.dimensions().0 as i32 - 1;
 	let mut y = im.dimensions().1 as i32 - 1;
+	// Using while loop as there is no reliable way
+	// to use custom steps in range() currently
 	while x >= 0 {
 		while y >= 0 {
 			let col = im.get_pixel(x as u32, y as u32);
@@ -79,9 +80,13 @@ fn main() {
 		exit(1)
 	};
 
+	// Top left corner
 	let (a, b) = (get_top_left(in_path), get_top_right(in_path));
+	// Lower right corner
 	let (x, y) = (get_lower_left(in_path), get_lower_right(in_path));
-	println!("({0}, {1}, {2}, {3})", a, b, x, y);
+
+	println!("Cropping area ({0}, {1}, {2}, {3}) from {4} to {5}",
+	a, b, x, y, in_path, out_path);
 
 	let mut im = image::open(&Path::new(in_path)).unwrap();
 	let subim = im.crop(a, b, x - a, y - b);
