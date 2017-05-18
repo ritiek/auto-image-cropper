@@ -1,5 +1,7 @@
 extern crate image;
 
+use std::env::args;
+use std::process::exit;
 //use std::fs::File;
 use std::path::Path;
 use image::{
@@ -7,8 +9,8 @@ use image::{
 //		imageops
 };
 
-fn get_top_left(path: &str) -> u32 {
-    let im = image::open(&Path::new(path)).unwrap();
+fn get_top_left(in_path: &str) -> u32 {
+    let im = image::open(&Path::new(in_path)).unwrap();
 	for x in 0..(im.dimensions().1) {
 		for y in 0..(im.dimensions().0) {
 			let col = im.get_pixel(y, x);
@@ -20,8 +22,8 @@ fn get_top_left(path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_top_right(path: &str) -> u32 {
-    let im = image::open(&Path::new(path)).unwrap();
+fn get_top_right(in_path: &str) -> u32 {
+    let im = image::open(&Path::new(in_path)).unwrap();
 	for x in 0..(im.dimensions().0) {
 		for y in 0..(im.dimensions().1) {
 			let col = im.get_pixel(x, y);
@@ -33,8 +35,8 @@ fn get_top_right(path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_left(path: &str) -> u32 {
-    let im = image::open(&Path::new(path)).unwrap();
+fn get_lower_left(in_path: &str) -> u32 {
+    let im = image::open(&Path::new(in_path)).unwrap();
 	let mut x = im.dimensions().1 as i32 - 1;
 	let mut y = im.dimensions().0 as i32 - 1;
 	while x >= 0 {
@@ -50,8 +52,8 @@ fn get_lower_left(path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_right(path: &str) -> u32 {
-    let im = image::open(&Path::new(path)).unwrap();
+fn get_lower_right(in_path: &str) -> u32 {
+    let im = image::open(&Path::new(in_path)).unwrap();
 	let mut x = im.dimensions().0 as i32 - 1;
 	let mut y = im.dimensions().1 as i32 - 1;
 	while x >= 0 {
@@ -68,18 +70,27 @@ fn get_lower_right(path: &str) -> u32 {
 }
 
 fn main() {
-    let path = "test.png";
+	let args: Vec<_> = args().collect();
 
-	let a = get_top_left(path);
-	let b = get_top_right(path);
-	let x = get_lower_left(path);
-	let y = get_lower_right(path);
+	let in_path: &str = if args.len() == 3 {
+		args[1].as_str()
+	} else {
+		println!("usage: {} <input_image> <output_image>", args[0]);
+		exit(1)
+	};
+
+	println!("{}", in_path); //, out_path);
+
+	let a = get_top_left(in_path);
+	let b = get_top_right(in_path);
+	let x = get_lower_left(in_path);
+	let y = get_lower_right(in_path);
 	println!("({0}, {1}, {2}, {3})", a, b, x, y)
 
-   /*let mut im = image::open(&Path::new(path)).unwrap();
+   /*let mut im = image::open(&Path::new(in_path)).unwrap();
 	let subim = imageops::crop(&mut im, a, b, x, y);
 
-    let ref mut fout = File::create(&Path::new("result.png")).unwrap();
+    let ref mut fout = File::create(&Path::new(out_path)).unwrap();
 
     let _ = subim.save(fout, image::PNG).unwrap();*/
 }
