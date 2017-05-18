@@ -2,7 +2,7 @@ extern crate image;
 
 use std::env::args;
 use std::process::exit;
-//use std::fs::File;
+use std::fs::File;
 use std::path::Path;
 use image::{
 		GenericImage,
@@ -81,12 +81,12 @@ fn main() {
 
 	let (a, b) = (get_top_left(in_path), get_top_right(in_path));
 	let (x, y) = (get_lower_left(in_path), get_lower_right(in_path));
-	println!("({0}, {1}, {2}, {3})", a, b, x, y)
+	println!("({0}, {1}, {2}, {3})", a, b, x, y);
 
 	let mut im = image::open(&Path::new(in_path)).unwrap();
-	let subim = imageops::crop(&mut im, a, b, x, y);
+	let subim = im.crop(a, b, x - a, y - b);
 
 	let ref mut fout = File::create(&Path::new(out_path)).unwrap();
 
-	let _ = subim.save(fout, image::PNG).unwrap();*/
+	let _ = subim.save(fout, image::PNG).unwrap();
 }
