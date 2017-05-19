@@ -2,6 +2,12 @@
 name = "auto-image-cropper"
 version = "0.1.0"
 authors = ["Ritiek <ritiekmalhotra123@gmail.com>"]
+description = "Removes extra white borders to correctly resize canvas"
+repository = "https://github.com/Ritiek/auto-image-cropper"
+readme = "README.md"
+keywords = ["image", "crop", "auto", "canvas", "resize"]
+categories = ["multimedia::images", "command-line-utilities"]
+license = "MIT"
 
 [dependencies]
 image = "0.13.0"
