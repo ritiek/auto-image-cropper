@@ -2,7 +2,11 @@
 
 - Removes extra white boundaries from images to correctly resize canvas.
 
-- Currently, this tool only works on images with rectangular boundaries but shall soon support all kinds of images.
+## Screenshots
+
+<img src="http://i.imgur.com/OAtw4El.jpg" width="290"><img src="http://i.imgur.com/bVp786s.jpg" width="290">
+
+<img src="http://i.imgur.com/89dkS6T.jpg" width="290"><img src="http://i.imgur.com/12AcUgH.jpg" width="290">
 
 ## Installation and Usage
 
