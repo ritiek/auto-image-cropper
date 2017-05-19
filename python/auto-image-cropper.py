@@ -15,32 +15,32 @@ def getTopLeft(path):
 	for x in range(im.size[1]):
 		for y in range(im.size[0]):
 			color = im.getpixel((y, x))
-			if not sum(color) == 1020:
-				return y
+			if not color[0] == 255 and not color[1] == 255 and not color[2] == 255:
+				return x # top
 
 def getTopRight(path):
 	im = Image.open(path)
 	for x in range(im.size[0]):
 		for y in range(im.size[1]):
 			color = im.getpixel((x, y))
-			if not sum(color) == 1020:
-				return y
+			if not color[0] == 255 and not color[1] == 255 and not color[2] == 255:
+				return x # left
 
 def getLowerLeft(path):
 	im = Image.open(path)
 	for x in range(im.size[1]-1, 0, -1):
 		for y in range(im.size[0]-1, 0, -1):
 			color = im.getpixel((y, x))
-			if not sum(color) == 1020:
-				return (y + 1)
+			if not color[0] == 255 and not color[1] == 255 and not color[2] == 255:
+				return (x + 1) # down
 
 def getLowerRight(path):
 	im = Image.open(path)
 	for x in range(im.size[0]-1, 0, -1):
 		for y in range(im.size[1]-1, 0, -1):
 			color = im.getpixel((x, y))
-			if not sum(color) == 1020:
-				return (y + 1)
+			if not color[0] == 255 and not color[1] == 255 and not color[2] == 255:
+				return (x + 1) # right
 
 a, b = getTopLeft(path), getTopRight(path)
 x, y = getLowerLeft(path), getLowerRight(path)
@@ -48,5 +48,5 @@ strings = "(" + str(a) + ", " + str(b) + ", " + str(x) + ", " + str(y) + ")"
 print("Cropping area " + strings + " from " + path + " to " + output)
 
 im = Image.open(path)
-cropped = im.crop((a, b, x, y))
+cropped = im.crop((b, a, y, x))
 cropped.save(output)
