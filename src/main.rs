@@ -12,7 +12,7 @@ fn get_top_left(in_path: &str) -> u32 {
 		for y in 0..(im.dimensions().0) {
 			let col = im.get_pixel(y, x);
 			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return y;
+				return x;
 			}
 		}
 	}
@@ -25,7 +25,7 @@ fn get_top_right(in_path: &str) -> u32 {
 		for y in 0..(im.dimensions().1) {
 			let col = im.get_pixel(x, y);
 			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return y;
+				return x;
 			}
 		}
 	}
@@ -35,18 +35,18 @@ fn get_top_right(in_path: &str) -> u32 {
 fn get_lower_left(in_path: &str) -> u32 {
 	let im = image::open(&Path::new(in_path)).unwrap();
 	let mut x = im.dimensions().1 as i32 - 1;
-	let mut y = im.dimensions().0 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
 	while x >= 0 {
+		let mut y = im.dimensions().0 as i32 - 1;
 		while y >= 0 {
 			let col = im.get_pixel(y as u32, x as u32);
 			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return y as u32 + 1;
+				return x as u32 + 1;
 			}
-			x -= 1;
 			y -= 1;
 		}
+		x -= 1;
 	}
 	unreachable!();
 }
@@ -54,18 +54,18 @@ fn get_lower_left(in_path: &str) -> u32 {
 fn get_lower_right(in_path: &str) -> u32 {
 	let im = image::open(&Path::new(in_path)).unwrap();
 	let mut x = im.dimensions().0 as i32 - 1;
-	let mut y = im.dimensions().1 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
 	while x >= 0 {
+		let mut y = im.dimensions().1 as i32 - 1;
 		while y >= 0 {
 			let col = im.get_pixel(x as u32, y as u32);
 			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return y as u32 + 1;
+				return x as u32 + 1;
 			}
-			x -= 1;
 			y -= 1;
 		}
+		x -= 1;
 	}
 	unreachable!();
 }
