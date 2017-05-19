@@ -4,6 +4,9 @@
 
 ## Screenshots
 
+The borders are just to represent the actual images tested with.
+(click to zoom)
+
 <img src="http://i.imgur.com/3pc600q.jpg" width="200">            <img src="http://i.imgur.com/nMR1ZuV.jpg" width="200">
 
 <img src="http://i.imgur.com/QIXGDCk.jpg" width="200">            <img src="http://i.imgur.com/NTfeN3e.jpg" width="200">
