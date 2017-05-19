@@ -93,5 +93,5 @@ fn main() {
 
 	let ref mut fout = File::create(&Path::new(out_path)).unwrap();
 
-	let _ = subim.save(fout, image::PNG).unwrap();
+	let _ = subim.save(fout, image::JPEG).unwrap();
 }
