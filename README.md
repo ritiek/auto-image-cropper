@@ -29,7 +29,7 @@ The borders are just to represent the actual images tested with.
 
 - [table]
 
-- Python struggles to find the optimal coordinates but is quick (quicker than Rust) when saving the cropped image back to disk. Rust really outperforms when finding the optimal coordinates.
+- Python struggles to find the optimal coordinates but is quick (quicker than Rust) when saving the cropped image back to disk. Rust really outperforms while finding the optimal coordinates.
 
 ## Contributing
 
