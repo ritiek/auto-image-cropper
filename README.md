@@ -4,9 +4,9 @@
 
 ## Screenshots
 
-<img src="http://i.imgur.com/JQrlXb3.jpg" width="200">    -    <img src="http://i.imgur.com/dbw052D.jpg" width="200">
+<img src="http://i.imgur.com/3pc600q.jpg" width="200">            <img src="http://i.imgur.com/nMR1ZuV.jpg" width="200">
 
-<img src="http://i.imgur.com/Ugc2zND.jpg" width="200">    -    <img src="http://i.imgur.com/voOj1fi.jpg" width="200">
+<img src="http://i.imgur.com/QIXGDCk.jpg" width="200">            <img src="http://i.imgur.com/NTfeN3e.jpg" width="200">
 
 ## Installation and Usage
 
