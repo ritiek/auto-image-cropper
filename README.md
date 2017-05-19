@@ -13,11 +13,15 @@ The borders are just to represent the actual images tested with.
 
 ## Installation and Usage
 
-`git clone https://github.com/Ritiek/Auto-Image-Cropper`
+`git clone https://github.com/Ritiek/auto-image-cropper`
 
-`cd Auto-Image-Cropper`
+`cd auto-image-cropper`
 
 `cargo build --release`
+
+`cd target/release`
+
+`./auto-image-cropper`
 
 ## Benchmarks
 
