@@ -42,11 +42,11 @@ def getLowerRight(path):
 			if not color[0] == 255 and not color[1] == 255 and not color[2] == 255:
 				return (x + 1) # right
 
-a, b = getTopLeft(path), getTopRight(path)
-x, y = getLowerLeft(path), getLowerRight(path)
+b, a = getTopLeft(path), getTopRight(path)
+y, x = getLowerLeft(path), getLowerRight(path)
 strings = "(" + str(a) + ", " + str(b) + ", " + str(x) + ", " + str(y) + ")"
 print("Cropping area " + strings + " from " + path + " to " + output)
 
 im = Image.open(path)
-cropped = im.crop((b, a, y, x))
+cropped = im.crop((a, b, x, y))
 cropped.save(output)
