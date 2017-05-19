@@ -81,9 +81,9 @@ fn main() {
 	};
 
 	// Top left corner
-	let (a, b) = (get_top_left(in_path), get_top_right(in_path));
+	let (b, a) = (get_top_left(in_path), get_top_right(in_path));
 	// Lower right corner
-	let (x, y) = (get_lower_left(in_path), get_lower_right(in_path));
+	let (y, x) = (get_lower_left(in_path), get_lower_right(in_path));
 
 	println!("Cropping area ({0}, {1}, {2}, {3}) from {4} to {5}",
 	a, b, x, y, in_path, out_path);
