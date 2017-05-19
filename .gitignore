@@ -1,4 +1,3 @@
 Cargo.lock
-*.py
-*.png
-target/
+target/debug/*
+benchmarking/result.*
