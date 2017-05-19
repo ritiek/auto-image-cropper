@@ -11,3 +11,6 @@ license = "MIT"
 
 [dependencies]
 image = "0.13.0"
+
+[[bin]]
+name = "autocrop"
