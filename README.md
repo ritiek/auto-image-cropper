@@ -13,16 +13,19 @@ The borders are just to represent the actual images tested with.
 
 ## Installation and Usage
 
-`cargo install auto-image-cropper`
-`autocrop`
+```
+cargo install auto-image-cropper
+```
 
 or if you like to live on the bleeding edge
 
 ```
-cargo build --release
-cd target/release
-./auto-image-cropper`
+git clone https://github.com/Ritiek/auto-image-cropper
+cd auto-image-cropper
+cargo install
 ```
+
+Use `autocrop` to start using the tool.
 
 ## Benchmarks
 
