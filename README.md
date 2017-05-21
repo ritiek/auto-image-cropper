@@ -31,7 +31,9 @@ Use `autocrop` to start using the tool.
 
 - This tool was re-written in [Python](python/) to compare with Rust just for fun.
 
-- [table]
+| Image      | Python | Rust | Times faster |
+|------------|-------:|-----:|
+|[face.jpg](benchmarking/face.jpg)|0.867s|0.155s|5.59|
 
 - Python struggles to find the optimal coordinates but is quick (quicker than Rust) when saving the cropped image back to disk. Rust really outperforms while finding the optimal coordinates.
 
