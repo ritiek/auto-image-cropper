@@ -1,8 +1,0 @@
-Image		Python	Rust	Times faster
-
-face.jpg	0.867s	0.155s	5.59
-square.png	1.682s	0.142s	11.84
-flowers.jpg	2.222s	0.476s	4.66
-human.jpg	2.362s	0.294s	8.02
-pets.jpg	5.366s	1.704s	3.14
-agent47.jpg	51.559s	7.519s	6.85
