@@ -31,7 +31,7 @@ Use `autocrop` to start using the tool.
 
 - This tool was re-written in [Python](python/) to compare with Rust just for fun.
 
-|                  Image                  |  Python |  Rust  | Times faster |
+|                  Image                  |  Python |  Rust  | Times Faster |
 |:---------------------------------------:|:-------:|:------:|:------------:|
 | [face.jpg](benchmarking/face.jpg)       |  0.867s | 0.155s |         5.59 |
 | [square.png](benchmarking/square.png)   |  1.682s | 0.142s |        11.84 |
