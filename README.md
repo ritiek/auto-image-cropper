@@ -33,8 +33,8 @@ Use `autocrop` to start using the tool.
 
 |                  Image                  |  Python |  Rust  | Times faster |
 |:---------------------------------------:|:-------:|:------:|:------------:|
-| [face,jpg](benchmarking/face.jpg)       |  0.867s | 0.155s |         5.59 |
-| [square.jpg](benchmarking/square.jpg)   |  1.682s | 0.142s |        11.84 |
+| [face.jpg](benchmarking/face.jpg)       |  0.867s | 0.155s |         5.59 |
+| [square.png](benchmarking/square.png)   |  1.682s | 0.142s |        11.84 |
 | [flowers.jpg](benchmarking/flowers.jpg) |  2.222s | 0.476s |         4.66 |
 | [human.jpg](benchmarking/human.jpg)     |   2.362 |  0.294 |         8.02 |
 | [pets.jpg](benchmarking/pets.jpg)       |  5.366s | 1.704s |         3.14 |
