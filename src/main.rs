@@ -1,13 +1,15 @@
+extern crate clap;
 extern crate image;
 
-use std::env::args;
-use std::process::exit;
-use std::fs::File;
+use std::fs;
+//use std::env::args;
+//use std::process::exit;
 use std::path::Path;
+use clap::{Arg, App};
 use image::GenericImage;
 
-fn get_top_left(in_path: &str) -> u32 {
-	let im = image::open(&Path::new(in_path)).unwrap();
+fn get_top_left(input_path: &str) -> u32 {
+	let im = image::open(&Path::new(input_path)).unwrap();
 	for x in 0..(im.dimensions().1) {
 		for y in 0..(im.dimensions().0) {
 			let col = im.get_pixel(y, x);
@@ -19,8 +21,8 @@ fn get_top_left(in_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_top_right(in_path: &str) -> u32 {
-	let im = image::open(&Path::new(in_path)).unwrap();
+fn get_top_right(input_path: &str) -> u32 {
+	let im = image::open(&Path::new(input_path)).unwrap();
 	for x in 0..(im.dimensions().0) {
 		for y in 0..(im.dimensions().1) {
 			let col = im.get_pixel(x, y);
@@ -32,8 +34,8 @@ fn get_top_right(in_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_left(in_path: &str) -> u32 {
-	let im = image::open(&Path::new(in_path)).unwrap();
+fn get_lower_left(input_path: &str) -> u32 {
+	let im = image::open(&Path::new(input_path)).unwrap();
 	let mut x = im.dimensions().1 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
@@ -51,8 +53,8 @@ fn get_lower_left(in_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_right(in_path: &str) -> u32 {
-	let im = image::open(&Path::new(in_path)).unwrap();
+fn get_lower_right(input_path: &str) -> u32 {
+	let im = image::open(&Path::new(input_path)).unwrap();
 	let mut x = im.dimensions().0 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
@@ -70,28 +72,70 @@ fn get_lower_right(in_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn main() {
-	let args: Vec<_> = args().collect();
-
-	let (in_path, out_path) = if args.len() == 3 {
-		(args[1].as_str(), args[2].as_str())
-	} else {
-		println!("usage: {} <input_image> <output_image>", args[0]);
-		exit(1)
-	};
-
+fn crop_image(input_path: &str, output_path: &str) {
 	// Top left corner
-	let (b, a) = (get_top_left(in_path), get_top_right(in_path));
+	let (b, a) = (get_top_left(input_path), get_top_right(input_path));
 	// Lower right corner
-	let (y, x) = (get_lower_left(in_path), get_lower_right(in_path));
+	let (y, x) = (get_lower_left(input_path), get_lower_right(input_path));
 
 	println!("Cropping area ({0}, {1}, {2}, {3}) from {4} to {5}",
-	a, b, x, y, in_path, out_path);
+	a, b, x, y, input_path, output_path);
 
-	let mut im = image::open(&Path::new(in_path)).unwrap();
+	let mut im = image::open(&Path::new(input_path)).unwrap();
 	let subim = im.crop(a, b, x - a, y - b);
 
-	let ref mut fout = File::create(&Path::new(out_path)).unwrap();
+	let ref mut fout = fs::File::create(&Path::new(output_path)).unwrap();
 
 	let _ = subim.save(fout, image::JPEG).unwrap();
+}
+
+fn main() {
+	/* Hold Your Breath */
+	let arguments = App::new("auto-image-cropper")
+	                    .version("0.1.2")
+	                    .author("Ritiek Malhotra <ritiekmalhotra123@gmail.com")
+	                    .about("Removes extra white boundaries from images to correctly resize canvas.")
+
+	                    .arg(Arg::with_name("input")
+	                    .short("i")
+	                    .long("input")
+	                    .value_name("LOCATION")
+	                    .required(true)
+	                    .takes_value(true)
+	                    .help("location of input image/directory"))
+
+	                    .arg(Arg::with_name("output")
+	                    .short("o")
+	                    .long("output")
+	                    .value_name("LOCATION")
+	                    .takes_value(true)
+	                    .help("location of output image/directory"))
+
+	                    .get_matches();
+
+	let input_path = arguments.value_of("input").unwrap();
+	let output_path = arguments.value_of("output")
+	                        .unwrap_or(input_path);
+	let path_type = fs::metadata(input_path).unwrap();
+
+	if path_type.is_file() {
+		crop_image(input_path, output_path);
+
+	} else {
+		let input_files = fs::read_dir(input_path).unwrap();
+
+		if !Path::new(output_path).exists() {
+			let _ = fs::create_dir(output_path);
+		}
+
+		for file in input_files {
+			let img_in = file.unwrap().path();
+			let img_name = img_in.file_name();
+			let img_out = Path::new(output_path).join(img_name.unwrap());
+
+			crop_image(&(img_in.display().to_string()),
+			           &(img_out.into_os_string().into_string().unwrap()));
+		}
+	}
+
 }
