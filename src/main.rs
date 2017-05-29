@@ -93,7 +93,7 @@ fn main() {
 	/* Hold Your Breath */
 	let arguments = App::new("auto-image-cropper")
 	                    .version("0.1.2")
-	                    .author("Ritiek Malhotra <ritiekmalhotra123@gmail.com")
+	                    .author("Ritiek Malhotra <ritiekmalhotra123@gmail.com>")
 	                    .about("Removes extra white boundaries from images to correctly resize canvas.")
 
 	                    .arg(Arg::with_name("input")
@@ -102,14 +102,14 @@ fn main() {
 	                    .value_name("LOCATION")
 	                    .required(true)
 	                    .takes_value(true)
-	                    .help("location of input image/directory"))
+	                    .help("Location of input image/directory"))
 
 	                    .arg(Arg::with_name("output")
 	                    .short("o")
 	                    .long("output")
 	                    .value_name("LOCATION")
 	                    .takes_value(true)
-	                    .help("location of output image/directory"))
+	                    .help("Location of output image/directory"))
 
 	                    .get_matches();
 
