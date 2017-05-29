@@ -27,6 +27,19 @@ cargo install
 
 Use `autocrop` to start using the tool.
 
+```
+USAGE:
+    autocrop [OPTIONS] --input <LOCATION>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -i, --input <LOCATION>     location of input image/directory
+    -o, --output <LOCATION>    location of output image/directory
+```
+
 ## Benchmarks
 
 - This tool was re-written in [Python](python/) to compare with Rust just for fun.
