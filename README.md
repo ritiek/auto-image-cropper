@@ -36,8 +36,8 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -i, --input <LOCATION>     location of input image/directory
-    -o, --output <LOCATION>    location of output image/directory
+    -i, --input <LOCATION>     Location of input image/directory
+    -o, --output <LOCATION>    Location of output image/directory
 ```
 
 ## Benchmarks
