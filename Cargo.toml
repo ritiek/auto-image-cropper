@@ -1,6 +1,6 @@
 [package]
 name = "auto-image-cropper"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["Ritiek <ritiekmalhotra123@gmail.com>"]
 description = "Removes extra white borders to correctly resize canvas"
 repository = "https://github.com/Ritiek/auto-image-cropper"
