@@ -1,12 +1,13 @@
 extern crate clap;
 extern crate image;
+extern crate rayon;
 
 use std::fs;
-//use std::env::args;
-//use std::process::exit;
+use std::fs::{DirEntry};
 use std::path::Path;
 use clap::{Arg, App};
 use image::GenericImage;
+use rayon::prelude::*;
 
 fn get_top_left(input_path: &str) -> u32 {
 	let im = image::open(&Path::new(input_path)).unwrap();
@@ -84,7 +85,8 @@ fn crop_image(input_path: &str, output_path: &str) {
 	let mut im = image::open(&Path::new(input_path)).unwrap();
 	let subim = im.crop(a, b, x - a, y - b);
 
-	let ref mut fout = fs::File::create(&Path::new(output_path)).unwrap();
+	let fout = fs::File::create(&Path::new(output_path)).unwrap();
+	let ref mut fout = std::io::BufWriter::new(fout);
 
 	let _ = subim.save(fout, image::JPEG).unwrap();
 }
@@ -127,15 +129,21 @@ fn main() {
 		if !Path::new(output_path).exists() {
 			let _ = fs::create_dir(output_path);
 		}
-
+		let mut files_to_crop: Vec<DirEntry> = Vec::new();
 		for file in input_files {
-			let img_in = file.unwrap().path();
-			let img_name = img_in.file_name();
-			let img_out = Path::new(output_path).join(img_name.unwrap());
-
-			crop_image(&(img_in.display().to_string()),
-			           &(img_out.into_os_string().into_string().unwrap()));
+			files_to_crop.push(file.unwrap());
 		}
+
+		files_to_crop
+			.par_iter()
+			.for_each(|file| {
+				let img_in = file.path();
+				let img_name = img_in.file_name();
+				let img_out = Path::new(output_path).join(img_name.unwrap());
+
+				crop_image(&(img_in.display().to_string()),
+						&(img_out.into_os_string().into_string().unwrap()));
+			});
 	}
 
 }
