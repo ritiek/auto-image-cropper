@@ -1,2 +1,4 @@
 target/debug/*
 benchmarking/result.*
+target/
+blob/

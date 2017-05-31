@@ -9,8 +9,7 @@ use clap::{Arg, App};
 use image::GenericImage;
 use rayon::prelude::*;
 
-fn get_top_left(input_path: &str) -> u32 {
-	let im = image::open(&Path::new(input_path)).unwrap();
+fn get_top_left(im: &image::DynamicImage) -> u32 {
 	for x in 0..(im.dimensions().1) {
 		for y in 0..(im.dimensions().0) {
 			let col = im.get_pixel(y, x);
@@ -22,8 +21,7 @@ fn get_top_left(input_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_top_right(input_path: &str) -> u32 {
-	let im = image::open(&Path::new(input_path)).unwrap();
+fn get_top_right(im: &image::DynamicImage) -> u32 {
 	for x in 0..(im.dimensions().0) {
 		for y in 0..(im.dimensions().1) {
 			let col = im.get_pixel(x, y);
@@ -35,8 +33,7 @@ fn get_top_right(input_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_left(input_path: &str) -> u32 {
-	let im = image::open(&Path::new(input_path)).unwrap();
+fn get_lower_left(im: &image::DynamicImage) -> u32 {
 	let mut x = im.dimensions().1 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
@@ -54,8 +51,7 @@ fn get_lower_left(input_path: &str) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_right(input_path: &str) -> u32 {
-	let im = image::open(&Path::new(input_path)).unwrap();
+fn get_lower_right(im: &image::DynamicImage) -> u32 {
 	let mut x = im.dimensions().0 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
@@ -74,16 +70,17 @@ fn get_lower_right(input_path: &str) -> u32 {
 }
 
 fn crop_image(input_path: &str, output_path: &str) {
+	// Load image:
+	let mut image = image::open(&Path::new(input_path)).unwrap();
 	// Top left corner
-	let (b, a) = (get_top_left(input_path), get_top_right(input_path));
+	let (b, a) = (get_top_left(&image), get_top_right(&image));
 	// Lower right corner
-	let (y, x) = (get_lower_left(input_path), get_lower_right(input_path));
+	let (y, x) = (get_lower_left(&image), get_lower_right(&image));
 
 	println!("Cropping area ({0}, {1}, {2}, {3}) from {4} to {5}",
 	a, b, x, y, input_path, output_path);
 
-	let mut im = image::open(&Path::new(input_path)).unwrap();
-	let subim = im.crop(a, b, x - a, y - b);
+	let subim = image.crop(a, b, x - a, y - b);
 
 	let fout = fs::File::create(&Path::new(output_path)).unwrap();
 	let ref mut fout = std::io::BufWriter::new(fout);
@@ -129,10 +126,11 @@ fn main() {
 		if !Path::new(output_path).exists() {
 			let _ = fs::create_dir(output_path);
 		}
-		let mut files_to_crop: Vec<DirEntry> = Vec::new();
+		let mut files_to_crop: Vec<DirEntry> = Vec::with_capacity(10);
 		for file in input_files {
 			files_to_crop.push(file.unwrap());
 		}
+		println!("Vector length is {}", files_to_crop.len());
 
 		files_to_crop
 			.par_iter()
