@@ -2,6 +2,8 @@
 
 - Removes extra white boundaries from images to correctly resize canvas.
 
+Thanks @matthewkmayer for bringing down cropping times!
+
 ## Screenshots
 
 The borders are just to represent the actual images tested with.
