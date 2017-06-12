@@ -2,7 +2,7 @@
 
 - Removes extra white boundaries from images to correctly resize canvas.
 
-Thanks @matthewkmayer for bringing down cropping times!
+- Thanks **@matthewkmayer** for bringing down cropping times!
 
 ## Screenshots
 
