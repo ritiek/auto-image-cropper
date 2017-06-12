@@ -91,7 +91,7 @@ fn crop_image(input_path: &str, output_path: &str) {
 fn main() {
 	/* Hold Your Breath */
 	let arguments = App::new("auto-image-cropper")
-	                    .version("0.1.4")
+	                    .version("0.1.5")
 	                    .author("Ritiek Malhotra <ritiekmalhotra123@gmail.com>")
 	                    .about("Removes extra white boundaries from images to correctly resize canvas.")
 
