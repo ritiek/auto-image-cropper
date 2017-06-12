@@ -12,7 +12,7 @@ license = "MIT"
 [dependencies]
 image = "0.13"
 clap = "2.24"
-rayon = "0.7.0"
+rayon = "0.7"
 
 [[bin]]
 name = "autocrop"
