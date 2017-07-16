@@ -1,4 +1,6 @@
-# Auto-Image-Cropper
+# auto-image-cropper
+
+[![Crates.io](https://img.shields.io/crates/v/auto-image-cropper.svg)](https://crates.io/crates/auto-image-cropper/) [![Build Status](https://travis-ci.org/ritiek/auto-image-cropper.svg?branch=master)](https://travis-ci.org/ritiek/auto-image-cropper/)
 
 - Removes extra white boundaries from images to correctly resize canvas.
 
