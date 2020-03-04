@@ -1,119 +1,75 @@
-use std::fs;
-use std::fs::{DirEntry};
-use std::path::Path;
 use clap::{Arg, App};
-use image::{GenericImageView, DynamicImage};
-use rayon::prelude::*;
+use rayon::iter::{
+    IntoParallelRefIterator,
+    ParallelIterator,
+};
 
-fn get_top_left(im: &DynamicImage) -> u32 {
-	for x in 0..(im.dimensions().1) {
-		for y in 0..(im.dimensions().0) {
-			let col = im.get_pixel(y, x);
-			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return x;
-			}
-		}
-	}
-	unreachable!();
-}
+use std::fs;
+use std::fs::DirEntry;
+use std::path::Path;
 
-fn get_top_right(im: &DynamicImage) -> u32 {
-	for x in 0..(im.dimensions().0) {
-		for y in 0..(im.dimensions().1) {
-			let col = im.get_pixel(x, y);
-			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return x;
-			}
-		}
-	}
-	unreachable!();
-}
-
-fn get_lower_left(im: &DynamicImage) -> u32 {
-	let mut x = im.dimensions().1 as i32 - 1;
-	// Using while loop as there is no reliable way
-	// to use custom steps in range() currently
-	while x >= 0 {
-		let mut y = im.dimensions().0 as i32 - 1;
-		while y >= 0 {
-			let col = im.get_pixel(y as u32, x as u32);
-			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return x as u32 + 1;
-			}
-			y -= 1;
-		}
-		x -= 1;
-	}
-	unreachable!();
-}
-
-fn get_lower_right(im: &DynamicImage) -> u32 {
-	let mut x = im.dimensions().0 as i32 - 1;
-	// Using while loop as there is no reliable way
-	// to use custom steps in range() currently
-	while x >= 0 {
-		let mut y = im.dimensions().1 as i32 - 1;
-		while y >= 0 {
-			let col = im.get_pixel(x as u32, y as u32);
-			if col[0] != 255 && col[1] != 255 && col[2] != 255 {
-				return x as u32 + 1;
-			}
-			y -= 1;
-		}
-		x -= 1;
-	}
-	unreachable!();
-}
+use auto_image_cropper::imagecrop::ImageCrop;
 
 fn crop_image(input_path: &str, output_path: &str) {
-	// Load image:
-	let mut image = image::open(&Path::new(input_path)).unwrap();
+	let mut image = ImageCrop::open(&Path::new(input_path))
+        .expect(&format!("Failed to read input file: '{}'", input_path));
 
-	// Top left corner
-	let (b, a) = (get_top_left(&image), get_top_right(&image));
+    let (top_left_corner, bottom_right_corner) = image.calculate_corners();
 
-	// Lower right corner
-	let (y, x) = (get_lower_left(&image), get_lower_right(&image));
+	println!("Cropping rectangle (({0}, {1}), ({2}, {3})) from {4} to {5}",
+        top_left_corner.x,
+        top_left_corner.y,
+        bottom_right_corner.x,
+        bottom_right_corner.y,
+        input_path,
+        output_path
+    );
 
-	println!("Cropping area ({0}, {1}, {2}, {3}) from {4} to {5}",
-	a, b, x, y, input_path, output_path);
+	let sub_image = image.original.crop(
+        top_left_corner.x,
+        top_left_corner.y,
+        bottom_right_corner.x - top_left_corner.x,
+        bottom_right_corner.y - top_left_corner.y,
+    );
 
-	let subim = image.crop(a, b, x - a, y - b);
-	subim.save(output_path).unwrap();
+	sub_image.save(output_path)
+        .expect(&format!(
+            "Failed to save input file: '{}' to output path: '{}'",
+                input_path,
+                output_path)
+        );
 }
 
 fn main() {
-	/* Hold Your Breath */
 	let arguments = App::new("auto-image-cropper")
-	                    .version("0.1.5")
-	                    .author("Ritiek Malhotra <ritiekmalhotra123@gmail.com>")
-	                    .about("Removes extra white boundaries from images to correctly resize canvas.")
+        .version("0.1.5")
+        .author("Ritiek Malhotra <ritiekmalhotra123@gmail.com>")
+        .about("Removes extra white boundaries from images to correctly resize canvas.")
 
-	                    .arg(Arg::with_name("input")
-	                    .short("i")
-	                    .long("input")
-	                    .value_name("LOCATION")
-	                    .required(true)
-	                    .takes_value(true)
-	                    .help("Location of input image/directory"))
+        .arg(Arg::with_name("input")
+        .short("i")
+        .long("input")
+        .value_name("LOCATION")
+        .required(true)
+        .takes_value(true)
+        .help("Location of input image/directory"))
 
-	                    .arg(Arg::with_name("output")
-	                    .short("o")
-	                    .long("output")
-	                    .value_name("LOCATION")
-	                    .takes_value(true)
-	                    .help("Location of output image/directory"))
+        .arg(Arg::with_name("output")
+        .short("o")
+        .long("output")
+        .value_name("LOCATION")
+        .takes_value(true)
+        .help("Location of output image/directory"))
 
-	                    .get_matches();
+        .get_matches();
 
 	let input_path = arguments.value_of("input").unwrap();
 	let output_path = arguments.value_of("output")
-	                        .unwrap_or(input_path);
+        .unwrap_or(input_path);
 	let path_type = fs::metadata(input_path).unwrap();
 
 	if path_type.is_file() {
 		crop_image(input_path, output_path);
-
 	} else {
 		let input_files = fs::read_dir(input_path).unwrap();
 
@@ -137,5 +93,4 @@ fn main() {
 						&(img_out.into_os_string().into_string().unwrap()));
 			});
 	}
-
 }
