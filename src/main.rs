@@ -1,15 +1,11 @@
-extern crate clap;
-extern crate image;
-extern crate rayon;
-
 use std::fs;
 use std::fs::{DirEntry};
 use std::path::Path;
 use clap::{Arg, App};
-use image::GenericImage;
+use image::{GenericImageView, DynamicImage};
 use rayon::prelude::*;
 
-fn get_top_left(im: &image::DynamicImage) -> u32 {
+fn get_top_left(im: &DynamicImage) -> u32 {
 	for x in 0..(im.dimensions().1) {
 		for y in 0..(im.dimensions().0) {
 			let col = im.get_pixel(y, x);
@@ -21,7 +17,7 @@ fn get_top_left(im: &image::DynamicImage) -> u32 {
 	unreachable!();
 }
 
-fn get_top_right(im: &image::DynamicImage) -> u32 {
+fn get_top_right(im: &DynamicImage) -> u32 {
 	for x in 0..(im.dimensions().0) {
 		for y in 0..(im.dimensions().1) {
 			let col = im.get_pixel(x, y);
@@ -33,7 +29,7 @@ fn get_top_right(im: &image::DynamicImage) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_left(im: &image::DynamicImage) -> u32 {
+fn get_lower_left(im: &DynamicImage) -> u32 {
 	let mut x = im.dimensions().1 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
@@ -51,7 +47,7 @@ fn get_lower_left(im: &image::DynamicImage) -> u32 {
 	unreachable!();
 }
 
-fn get_lower_right(im: &image::DynamicImage) -> u32 {
+fn get_lower_right(im: &DynamicImage) -> u32 {
 	let mut x = im.dimensions().0 as i32 - 1;
 	// Using while loop as there is no reliable way
 	// to use custom steps in range() currently
@@ -72,8 +68,10 @@ fn get_lower_right(im: &image::DynamicImage) -> u32 {
 fn crop_image(input_path: &str, output_path: &str) {
 	// Load image:
 	let mut image = image::open(&Path::new(input_path)).unwrap();
+
 	// Top left corner
 	let (b, a) = (get_top_left(&image), get_top_right(&image));
+
 	// Lower right corner
 	let (y, x) = (get_lower_left(&image), get_lower_right(&image));
 
@@ -81,11 +79,7 @@ fn crop_image(input_path: &str, output_path: &str) {
 	a, b, x, y, input_path, output_path);
 
 	let subim = image.crop(a, b, x - a, y - b);
-
-	let fout = fs::File::create(&Path::new(output_path)).unwrap();
-	let ref mut fout = std::io::BufWriter::new(fout);
-
-	let _ = subim.save(fout, image::JPEG).unwrap();
+	subim.save(output_path).unwrap();
 }
 
 fn main() {
