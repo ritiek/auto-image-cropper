@@ -46,7 +46,7 @@ OPTIONS:
 
 ## Benchmarks
 
-- This tool was re-written in [Python](python/) to compare with Rust just for fun.
+- This tool was hackishly re-written in [Python](python/) to compare with Rust - just for fun.
 
 - The benchmarks were done on a MacBook Air running macOS Sierra 10.12.2.
 
@@ -60,12 +60,6 @@ OPTIONS:
 | [agent47.jpg](benchmarking/agent47.jpg) | 51.559s | 7.519s |         6.85 |
 
 - Python struggles to find the optimal coordinates but is quick (quicker than Rust) when saving the cropped image back to disk. Rust really outperforms while finding the optimal coordinates.
-
-## Contributing
-
-- Found a bug/ have an idea? Feel free to open your ticket in the [issues section](../../issues).
-
-- Even better, send a pull request. :)
 
 ## License
 
