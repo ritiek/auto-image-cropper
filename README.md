@@ -4,7 +4,8 @@
 
 - Removes extra white boundaries from images to correctly resize canvas.
 
-- Thanks **[@matthewkmayer](https://github.com/matthewkmayer)** for bringing down cropping times!
+- Thanks **[@matthewkmayer](https://github.com/matthewkmayer)** for bringing down cropping times
+  (see [#1](https://github.com/ritiek/auto-image-cropper/pull/1) and [#2](https://github.com/ritiek/auto-image-cropper/pull/2))!
 
 ## Screenshots
 
