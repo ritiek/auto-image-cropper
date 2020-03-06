@@ -10,10 +10,22 @@ keywords = ["image", "crop", "auto", "canvas", "resize"]
 categories = ["multimedia::images", "command-line-utilities"]
 license = "MIT"
 
+[lib]
+name = "auto_image_cropper"
+
+# "cdylib" is useful to generate a dynamic library
+# (*.so on Linux, *.dylib on OSX, *.dll on Windows)
+# This dynamic library can then be linked from other
+# programming languages, such as C and Python.
+
+# "rlib" is necessary to link from Rust binaries
+crate-type = ["rlib", "cdylib"]
+
 [dependencies]
 image = "0.23.0"
 clap = "2.33.0"
 rayon = "1.3.0"
+pyo3 = { version = "0.9.0-alpha.1", features = ["extension-module"] }
 
 [[bin]]
 name = "autocrop"

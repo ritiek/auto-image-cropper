@@ -8,37 +8,7 @@ use std::fs;
 use std::fs::DirEntry;
 use std::path::Path;
 
-use auto_image_cropper::imagecrop::ImageCrop;
-
-fn crop_image(input_path: &str, output_path: &str) {
-    let mut image = ImageCrop::open(&Path::new(input_path))
-        .expect(&format!("Failed to read input file: '{}'", input_path));
-
-    let (top_left_corner, bottom_right_corner) = image.calculate_corners();
-
-    println!("Cropping rectangle (({0}, {1}), ({2}, {3})) from {4} to {5}",
-        top_left_corner.x,
-        top_left_corner.y,
-        bottom_right_corner.x,
-        bottom_right_corner.y,
-        input_path,
-        output_path
-    );
-
-    let sub_image = image.original.crop(
-        top_left_corner.x,
-        top_left_corner.y,
-        bottom_right_corner.x - top_left_corner.x,
-        bottom_right_corner.y - top_left_corner.y,
-    );
-
-    sub_image.save(output_path)
-        .expect(&format!(
-            "Failed to save input file: '{}' to output path: '{}'",
-                input_path,
-                output_path)
-        );
-}
+use auto_image_cropper;
 
 fn main() {
     let arguments = App::new("auto-image-cropper")
@@ -69,7 +39,7 @@ fn main() {
     let path_type = fs::metadata(input_path).unwrap();
 
     if path_type.is_file() {
-        crop_image(input_path, output_path);
+        auto_image_cropper::crop_image(input_path, output_path);
     } else {
         let input_files = fs::read_dir(input_path).unwrap();
 
@@ -89,7 +59,7 @@ fn main() {
                 let img_name = img_in.file_name();
                 let img_out = Path::new(output_path).join(img_name.unwrap());
 
-                crop_image(&(img_in.display().to_string()),
+                auto_image_cropper::crop_image(&(img_in.display().to_string()),
                         &(img_out.into_os_string().into_string().unwrap()));
             });
     }
