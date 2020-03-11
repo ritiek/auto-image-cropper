@@ -45,6 +45,11 @@ OPTIONS:
     -o, --output <LOCATION>    Location of output image/directory
 ```
 
+For example:
+```
+$ ./target/release/autocrop -i benchmarking/face.jpg -o face.out.jpg
+```
+
 ## Python Bindings
 
 This tool also provides Python bindings via PyO3 (using Rust FFI). This feature can be
@@ -58,13 +63,21 @@ $ cargo build --release --features "python-binding"
 This will generate a dynamic library (\*.so) on Linux machines with the name
 `./target/release/libauto_image_cropper.so`.
 
-By moving this dynamic library into your current working directory, it can be imported via Python
-scripts using:
+Let's move this dynamic library into our current working directory:
+```shell
+$ mv target/release/libauto_image_cropper.so .
+```
+It can now be utilized via Python scripts using:
 ```python
 >>> import libauto_image_cropper
+
 # Returns the optimal top-left and bottom-right corner
 # coordinates for a given image to be cropped
->>> (x1, y1), (x2, y2) = libauto_image_cropper.calculate_corners("/path/to/imgfile")
+>>> (top_left, bottom_right) = libauto_image_cropper.calculate_corners("benchmarking/face.jpg")
+>>> print(top_left)
+(442, 73)
+>>> print(bottom_right)
+(783, 536)
 ```
 (I haven't checked this out on Windows or OSX, but should follow a similar procedure)
 
