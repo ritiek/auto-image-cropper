@@ -52,8 +52,16 @@ $ ./target/release/autocrop -i benchmarking/face.jpg -o face.out.jpg
 
 ## Python Bindings
 
-This tool also provides Python bindings via PyO3 (using Rust FFI). This feature can be
-enabled by passing `--features "python-binding"` to cargo when compiling.
+This tool also provides Python bindings via [PyO3](https://github.com/PyO3/pyo3) (using Rust FFI).
+
+You need a Rust nightly toolchain to proceed (PyO3 does not support Rust stable at the moment).
+If you have `rustup`, run:
+```
+$ rustup default nightly
+```
+to switch to nightly channel.
+
+This feature can then be enabled by passing `--features "python-binding"` to cargo when compiling.
 
 For example:
 ```shell
